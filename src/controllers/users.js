@@ -69,7 +69,7 @@ const UserController = {
                 .json({
                     allOk: true,
                     data: user,
-                    message: "One user Updated"
+                    message: "Tu perfil fue actualizado"
                 })
             } catch (error) {
                 res.status(500)
@@ -98,6 +98,50 @@ const UserController = {
                     message: "Unable to detele user"
                 })
             }
+    },
+    Login: async (req, res)=>{
+        try {
+            const {Correo, Contraseña} = req.body
+            
+            const UserLoaded = await user.findOne({Correo})
+            if(UserLoaded){
+                if(Contraseña === UserLoaded.Contraseña){
+                    res.status(200).json(
+                        {
+                            code: 0,
+                            message: "Tu login fue exitoso", 
+                            id: UserLoaded._id, 
+                            nombre: UserLoaded.NombreCompleto
+
+                        }
+                    )
+                }else {
+                    res.status(403).json(
+                        {
+                            code: 1,
+                            message: "La contraseña no coincide", 
+                        }
+                    )
+                }
+            }else{
+              res.status(200).json(
+                    {
+                        code: 3,
+                        allOk: false, 
+                        message: "No te encuentras registrado", 
+                    }
+                )  
+            }
+            
+        } catch (error) {
+            res.status(500)
+            .json({
+                code: 2,
+                allOk: false,
+                data: error.message,
+                message: "Tu login fallo"
+            })
+        }
     },
 }
 

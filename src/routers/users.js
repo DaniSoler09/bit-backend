@@ -8,6 +8,7 @@ UserRouter.get("/readAll", UserController.readAll)
 UserRouter.get("/readOne/:id", UserController.readOne)
 UserRouter.put("/update/:id", UserController.update)
 UserRouter.delete("/delete/:id", UserController.delete)
+UserRouter.post("/login", UserController.Login)
 
 
 export default UserRouter
